@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>App Launcher</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Launcher</p>
+        <h1>One link for the apps in flight.</h1>
+        <p>
+          This web launcher is the hosted version of the local dashboard. It is meant to stay simple:
+          screenshots, clear labels, and one button per app that opens the deployed build.
+        </p>
+        <div class="toolbar">
+          <span class="pill">Vercel-friendly static launcher</span>
+          <span class="pill">Update app links in one file</span>
+          <span class="pill">Local launcher stays separate</span>
+        </div>
+      </section>
+
+      <section class="grid" id="app-grid"></section>
+
+      <p class="footer-note">
+        Update the deployed app URLs in <code>launcher-data.js</code> once each app has a live public
+        link.
+      </p>
+    </main>
+
+    <script src="./launcher-data.js"></script>
+    <script>
+      const grid = document.getElementById("app-grid");
+      const apps = Array.isArray(window.LAUNCHER_APPS) ? window.LAUNCHER_APPS : [];
+
+      grid.innerHTML = apps
+        .map((app) => {
+          const hasUrl = Boolean(app.appUrl);
+          return `
+            <article class="card">
+              <div class="card-media">
+                <img src="${app.screenshotUrl}" alt="${app.name} screenshot" />
+              </div>
+              <div class="card-body">
+                <div class="card-top">
+                  <h2 class="card-title">${app.name}</h2>
+                  <span class="card-status">${app.status || (hasUrl ? "Ready" : "Pending")}</span>
+                </div>
+                <p class="card-copy">${app.summary}</p>
+                <div class="card-actions">
+                  ${
+                    hasUrl
+                      ? `<a class="btn btn-primary" href="${app.appUrl}" target="_blank" rel="noreferrer">Open app</a>`
+                      : `<span class="btn btn-disabled">Add deployed URL</span>`
+                  }
+                  <a class="btn btn-secondary" href="${app.screenshotUrl}" target="_blank" rel="noreferrer">View screenshot</a>
+                </div>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+    </script>
+  </body>
+</html>
+
