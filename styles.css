@@ -1,14 +1,14 @@
 :root {
-  --bg: #f3efe7;
-  --bg-accent: #ded8c7;
-  --surface: rgba(255, 251, 245, 0.86);
-  --surface-strong: #fffaf1;
-  --border: rgba(54, 45, 32, 0.12);
-  --text: #201b14;
-  --muted: #6c6256;
-  --accent: #b85c38;
-  --accent-dark: #8f4528;
-  --shadow: 0 30px 80px rgba(32, 27, 20, 0.09);
+  --bg: #eaf6ff;
+  --bg-accent: #d8edfb;
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-strong: #f7fcff;
+  --border: rgba(68, 113, 143, 0.14);
+  --text: #17324a;
+  --muted: #61819a;
+  --accent: #7fb8e6;
+  --accent-dark: #5fa4da;
+  --shadow: 0 30px 80px rgba(82, 140, 179, 0.12);
   --radius-xl: 28px;
   --radius-lg: 20px;
 }
@@ -24,9 +24,9 @@ body {
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(184, 92, 56, 0.18), transparent 28%),
-    radial-gradient(circle at top right, rgba(94, 129, 244, 0.1), transparent 22%),
-    linear-gradient(180deg, var(--bg), #fbf8f1);
+    radial-gradient(circle at top left, rgba(166, 215, 246, 0.85), transparent 30%),
+    radial-gradient(circle at top right, rgba(216, 238, 253, 0.95), transparent 32%),
+    linear-gradient(180deg, var(--bg), #f5fbff);
 }
 
 body {
@@ -40,9 +40,9 @@ body {
 
 .hero {
   border: 1px solid var(--border);
-  background: linear-gradient(140deg, rgba(255, 250, 241, 0.95), rgba(245, 236, 220, 0.88));
+  background: linear-gradient(140deg, rgba(252, 254, 255, 0.96), rgba(232, 245, 255, 0.9));
   border-radius: var(--radius-xl);
-  padding: 28px;
+  padding: 24px 28px;
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
@@ -54,7 +54,7 @@ body {
   inset: auto -60px -80px auto;
   width: 220px;
   height: 220px;
-  background: radial-gradient(circle, rgba(184, 92, 56, 0.16), transparent 68%);
+  background: radial-gradient(circle, rgba(127, 184, 230, 0.26), transparent 68%);
   pointer-events: none;
 }
 
@@ -68,23 +68,15 @@ body {
 }
 
 .hero h1 {
-  margin: 12px 0 10px;
-  font-size: clamp(34px, 6vw, 58px);
+  margin: 10px 0 0;
+  font-size: clamp(30px, 5vw, 50px);
   line-height: 0.94;
   letter-spacing: -0.04em;
-  max-width: 760px;
-}
-
-.hero p {
-  margin: 0;
-  max-width: 760px;
-  color: var(--muted);
-  font-size: 17px;
-  line-height: 1.65;
+  max-width: 720px;
 }
 
 .toolbar {
-  margin-top: 18px;
+  margin-top: 16px;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -96,7 +88,7 @@ body {
   gap: 8px;
   border-radius: 999px;
   padding: 10px 14px;
-  background: rgba(32, 27, 20, 0.04);
+  background: rgba(127, 184, 230, 0.14);
   color: var(--muted);
   font-size: 13px;
   font-weight: 600;
@@ -122,15 +114,47 @@ body {
 
 .card-media {
   aspect-ratio: 16 / 10;
-  background: linear-gradient(180deg, rgba(32, 27, 20, 0.05), rgba(32, 27, 20, 0.01));
+  position: relative;
   border-bottom: 1px solid var(--border);
+  overflow: hidden;
 }
 
-.card-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.theme-lavender {
+  background: linear-gradient(145deg, #efe8ff 0%, #dfe9ff 100%);
+}
+
+.theme-sky {
+  background: linear-gradient(145deg, #e5f5ff 0%, #d7eaff 100%);
+}
+
+.theme-mint {
+  background: linear-gradient(145deg, #e8fbf3 0%, #dff2ff 100%);
+}
+
+.theme-gold {
+  background: linear-gradient(145deg, #fff7dc 0%, #e4f2ff 100%);
+}
+
+.card-mark {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 2;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: rgba(23, 50, 74, 0.88);
+}
+
+.card-glow {
+  position: absolute;
+  right: -22px;
+  top: -12px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  filter: blur(6px);
 }
 
 .card-body {
@@ -158,7 +182,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--muted);
-  background: rgba(32, 27, 20, 0.05);
+  background: rgba(127, 184, 230, 0.16);
   border-radius: 999px;
   padding: 8px 10px;
 }
@@ -204,7 +228,7 @@ body {
 
 .btn-secondary {
   border-color: var(--border);
-  background: rgba(32, 27, 20, 0.03);
+  background: rgba(127, 184, 230, 0.08);
   color: var(--text);
 }
 
@@ -212,12 +236,6 @@ body {
   background: rgba(32, 27, 20, 0.06);
   color: var(--muted);
   cursor: not-allowed;
-}
-
-.footer-note {
-  margin-top: 22px;
-  color: var(--muted);
-  font-size: 14px;
 }
 
 @media (max-width: 720px) {
@@ -237,4 +255,3 @@ body {
     min-height: 0;
   }
 }
-
