@@ -1,21 +1,12 @@
 window.LAUNCHER_APPS = [
   {
-    name: "Content Machine",
-    slug: "content-machine",
-    summary: "Song uploads, content generation, scheduling, and analytics.",
-    appUrl: "https://artistdashboard-xi.vercel.app/dashboard",
+    name: "World Cup MVP",
+    slug: "world-cup-mvp",
+    summary: "NYC venue discovery, country flows, and match-day watch planning.",
+    appUrl: "https://worldcupmvp.vercel.app",
     status: "Live",
-    label: "6DSIX",
-    theme: "lavender"
-  },
-  {
-    name: "MarketConnect",
-    slug: "market-app",
-    summary: "Vendor discovery, produce listings, and local market visibility.",
-    appUrl: "https://marketconnectapp.vercel.app",
-    status: "Live",
-    label: "MARKET",
-    theme: "sky"
+    label: "WORLD CUP",
+    theme: "gold"
   },
   {
     name: "The Players App",
@@ -27,12 +18,21 @@ window.LAUNCHER_APPS = [
     theme: "mint"
   },
   {
-    name: "World Cup MVP",
-    slug: "world-cup-mvp",
-    summary: "NYC venue discovery, country flows, and match-day watch planning.",
-    appUrl: "https://worldcupmvp.vercel.app",
+    name: "MarketConnect",
+    slug: "market-app",
+    summary: "Vendor discovery, produce listings, and local market visibility.",
+    appUrl: "https://marketconnectapp.vercel.app",
     status: "Live",
-    label: "WORLD CUP",
-    theme: "gold"
+    label: "MARKET",
+    theme: "sky"
+  },
+  {
+    name: "Artist Dashboard",
+    slug: "artist-dashboard",
+    summary: "Song uploads, content generation, scheduling, and analytics.",
+    appUrl: "https://artistdashboard-xi.vercel.app/dashboard",
+    status: "Live",
+    label: "ARTIST",
+    theme: "lavender"
   }
 ];
