@@ -224,24 +224,24 @@ body {
 
 .live-preview {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 0;
+  left: 50%;
+  width: 170%;
+  height: 170%;
   border: 0;
   background: white;
-  transform: scale(0.72);
-  transform-origin: top left;
-  width: 138.9%;
-  height: 138.9%;
+  transform: translateX(-50%) scale(0.59);
+  transform-origin: top center;
   pointer-events: none;
+  border-radius: 10px;
 }
 
 .preview-overlay {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.12)),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.16), transparent 42%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.1)),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.18), transparent 36%);
   pointer-events: none;
   z-index: 2;
 }
@@ -250,6 +250,26 @@ body {
   position: absolute;
   left: 18px;
   bottom: 16px;
+}
+
+.app-lumis .live-preview {
+  transform: translateX(-50%) translateY(-2%) scale(0.56);
+}
+
+.app-world-cup-mvp .live-preview {
+  transform: translateX(-50%) translateY(-1%) scale(0.57);
+}
+
+.app-players-app .live-preview {
+  transform: translateX(-50%) translateY(-6%) scale(0.58);
+}
+
+.app-market-app .live-preview {
+  transform: translateX(-50%) translateY(-4%) scale(0.58);
+}
+
+.app-artist-dashboard .live-preview {
+  transform: translateX(-50%) translateY(-3%) scale(0.57);
 }
 
 .card-glow {
