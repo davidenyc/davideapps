@@ -117,6 +117,7 @@ body {
   position: relative;
   border-bottom: 1px solid var(--border);
   overflow: hidden;
+  padding: 14px;
 }
 
 .theme-lavender {
@@ -136,14 +137,89 @@ body {
 }
 
 .card-mark {
-  position: absolute;
-  left: 18px;
-  bottom: 18px;
+  position: relative;
   z-index: 2;
-  font-size: clamp(24px, 4vw, 34px);
+  font-size: clamp(22px, 3.5vw, 30px);
   font-weight: 800;
   letter-spacing: -0.05em;
   color: rgba(23, 50, 74, 0.88);
+}
+
+.preview-chrome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.44);
+  backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 2;
+}
+
+.preview-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(23, 50, 74, 0.22);
+  flex: 0 0 auto;
+}
+
+.preview-url {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: rgba(23, 50, 74, 0.68);
+}
+
+.preview-surface {
+  position: absolute;
+  inset: 48px 14px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.46);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  padding: 18px;
+  overflow: hidden;
+}
+
+.preview-title {
+  margin-top: 10px;
+  position: relative;
+  z-index: 2;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(23, 50, 74, 0.78);
+}
+
+.preview-lines {
+  margin-top: 16px;
+  display: grid;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.preview-lines span {
+  display: block;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.preview-lines span:nth-child(1) {
+  width: 86%;
+}
+
+.preview-lines span:nth-child(2) {
+  width: 64%;
+}
+
+.preview-lines span:nth-child(3) {
+  width: 72%;
 }
 
 .card-glow {

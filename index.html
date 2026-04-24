@@ -53,8 +53,22 @@
           return `
             <article class="card">
               <div class="card-media theme-${theme}">
-                <div class="card-mark">${label}</div>
-                <div class="card-glow"></div>
+                <div class="preview-chrome">
+                  <span class="preview-dot"></span>
+                  <span class="preview-dot"></span>
+                  <span class="preview-dot"></span>
+                  <span class="preview-url">${app.appUrl || app.name}</span>
+                </div>
+                <div class="preview-surface">
+                  <div class="card-mark">${label}</div>
+                  <div class="preview-title">${app.name}</div>
+                  <div class="preview-lines">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <div class="card-glow"></div>
+                </div>
               </div>
               <div class="card-body">
                 <div class="card-top">
