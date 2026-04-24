@@ -104,7 +104,7 @@ body {
 .card {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--border);
+  border: 0.5px solid rgba(68, 113, 143, 0.12);
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--surface);
@@ -115,9 +115,9 @@ body {
 .card-media {
   aspect-ratio: 16 / 10;
   position: relative;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 0.5px solid rgba(68, 113, 143, 0.12);
   overflow: hidden;
-  padding: 12px;
+  padding: 8px;
 }
 
 .theme-lavender {
@@ -147,10 +147,10 @@ body {
 
 .preview-surface {
   position: absolute;
-  inset: 12px;
+  inset: 8px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.46);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 0.5px solid rgba(255, 255, 255, 0.48);
   padding: 0;
   overflow: hidden;
 }
