@@ -1,5 +1,14 @@
 window.LAUNCHER_APPS = [
   {
+    name: "Lumis",
+    slug: "lumis",
+    summary: "Live build at the new Lumis Vercel app.",
+    appUrl: "https://lumis-delta.vercel.app/",
+    status: "Live",
+    label: "LUMIS",
+    theme: "sky"
+  },
+  {
     name: "World Cup MVP",
     slug: "world-cup-mvp",
     summary: "NYC venue discovery, country flows, and match-day watch planning.",
