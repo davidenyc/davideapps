@@ -5,6 +5,7 @@ window.LAUNCHER_APPS = [
     summary: "Live build at the new Lumis Vercel app.",
     appUrl: "https://lumis-delta.vercel.app/",
     status: "Live",
+    updatedAt: "2026-04-24T00:42:34-04:00",
     label: "LUMIS",
     theme: "sky"
   },
