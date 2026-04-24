@@ -60,13 +60,19 @@
                   <span class="preview-url">${app.appUrl || app.name}</span>
                 </div>
                 <div class="preview-surface">
-                  <div class="card-mark">${label}</div>
-                  <div class="preview-title">${app.name}</div>
-                  <div class="preview-lines">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
+                  ${
+                    hasUrl
+                      ? `<iframe class="live-preview" src="${app.appUrl}" title="${app.name} live preview" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`
+                      : ` <div class="card-mark">${label}</div>
+                          <div class="preview-title">${app.name}</div>
+                          <div class="preview-lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>`
+                  }
+                  <div class="preview-overlay"></div>
+                  <div class="card-mark card-mark-floating">${label}</div>
                   <div class="card-glow"></div>
                 </div>
               </div>
