@@ -20,16 +20,6 @@ window.LAUNCHER_APPS = [
     theme: "gold"
   },
   {
-    name: "The Players App",
-    slug: "players-app",
-    summary: "Mobile-first team operations, readiness, and player growth workflows.",
-    appUrl: "https://theplayersapp.vercel.app/login",
-    status: "Live",
-    updatedAt: "2026-04-23T13:27:17-04:00",
-    label: "PLAYERS",
-    theme: "mint"
-  },
-  {
     name: "MarketConnect",
     slug: "market-app",
     summary: "Vendor discovery, produce listings, and local market visibility.",
@@ -38,6 +28,16 @@ window.LAUNCHER_APPS = [
     updatedAt: "2026-04-23T13:22:32-04:00",
     label: "MARKET",
     theme: "sky"
+  },
+  {
+    name: "The Players App",
+    slug: "players-app",
+    summary: "Mobile-first team operations, readiness, and player growth workflows.",
+    appUrl: "https://theplayersapp.vercel.app/login",
+    status: "Live",
+    updatedAt: "2026-04-23T13:27:17-04:00",
+    label: "PLAYERS",
+    theme: "mint"
   },
   {
     name: "Artist Dashboard",
