@@ -24,12 +24,14 @@
     <script>
       const grid = document.getElementById("app-grid");
       const apps = Array.isArray(window.LAUNCHER_APPS) ? window.LAUNCHER_APPS : [];
-      const formatDate = (value) =>
+      const formatTimestamp = (value) =>
         value
-          ? new Date(value).toLocaleDateString("en-US", {
+          ? new Date(value).toLocaleString("en-US", {
               month: "short",
               day: "numeric",
               year: "numeric",
+              hour: "numeric",
+              minute: "2-digit"
             })
           : "";
       const latestAppUpdate = apps
@@ -39,7 +41,7 @@
 
       const lastUpdatedPill = document.querySelector(".pill-last-updated");
       if (lastUpdatedPill && latestAppUpdate) {
-        lastUpdatedPill.textContent = `Last updated ${formatDate(latestAppUpdate)}`;
+        lastUpdatedPill.textContent = `Last updated ${formatTimestamp(latestAppUpdate)}`;
       }
 
       grid.innerHTML = apps
@@ -47,7 +49,7 @@
           const hasUrl = Boolean(app.appUrl);
           const label = app.label || app.name;
           const theme = app.theme || "sky";
-          const updatedText = app.updatedAt ? `Last updated ${formatDate(app.updatedAt)}` : "";
+          const updatedText = app.updatedAt ? `Last updated ${formatTimestamp(app.updatedAt)}` : "";
           return `
             <article class="card">
               <div class="card-media theme-${theme}">
