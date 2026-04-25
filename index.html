@@ -42,12 +42,7 @@
           : "";
 
       function getFeedbackUrl(app) {
-        if (app.feedbackUrl) return app.feedbackUrl;
-        if (!app.githubRepo) return null;
-
-        const title = encodeURIComponent(`Launcher feedback: ${app.name}`);
-        const body = encodeURIComponent(`What did you like or want changed in ${app.name}?\n\n`);
-        return `https://github.com/${app.githubRepo}/issues/new?title=${title}&body=${body}`;
+        return null;
       }
 
       function updateSummaryPills(items) {
@@ -82,9 +77,6 @@
               : app.githubRepo
                 ? "Repo update unavailable"
                 : "Repo update unavailable";
-            const commitText = app.repoCommit
-              ? `Commit ${app.repoCommit}${app.repoSummary ? ` · ${app.repoSummary}` : ""}`
-              : "";
             const feedbackUrl = getFeedbackUrl(app);
 
             return `
@@ -111,7 +103,6 @@
                 </div>
                 <p class="card-copy">${app.summary}</p>
                 <p class="card-meta">${updatedText}</p>
-                ${commitText ? `<p class="card-meta card-meta-secondary">${commitText}</p>` : ""}
                 <div class="card-actions">
                   ${
                     hasUrl
