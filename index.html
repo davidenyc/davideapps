@@ -12,8 +12,9 @@
         <p class="eyebrow">Davide Apps</p>
         <h1>Apps Davide is currently developing</h1>
         <div class="toolbar">
-          <span class="pill">4 live projects</span>
-          <span class="pill pill-last-updated">Last updated</span>
+          <span class="pill pill-live-count">5 live projects</span>
+          <span class="pill pill-last-updated">Checking latest updates…</span>
+          <span class="pill pill-subtle">Timestamps auto-sync from GitHub</span>
         </div>
       </section>
 
@@ -23,7 +24,23 @@
     <script src="./launcher-data.js"></script>
     <script>
       const grid = document.getElementById("app-grid");
-      const apps = Array.isArray(window.LAUNCHER_APPS) ? window.LAUNCHER_APPS : [];
+      const baseApps = Array.isArray(window.LAUNCHER_APPS) ? window.LAUNCHER_APPS : [];
+      const lastUpdatedPill = document.querySelector(".pill-last-updated");
+      const liveCountPill = document.querySelector(".pill-live-count");
+      const subtlePill = document.querySelector(".pill-subtle");
+      const COUNT_API_NAMESPACE = "davide-app-launcher-v1";
+      const LIKE_STORAGE_PREFIX = "launcher-liked:";
+      const isHostedCounterContext =
+        window.location.protocol === "https:" &&
+        (window.location.hostname === "davideapps.vercel.app" ||
+          window.location.hostname.endsWith(".vercel.app"));
+      let appState = baseApps.map((app) => ({
+        ...app,
+        launches: null,
+        likes: null,
+        likedByViewer: false
+      }));
+
       const formatTimestamp = (value) =>
         value
           ? new Date(value).toLocaleString("en-US", {
@@ -34,58 +51,215 @@
               minute: "2-digit"
             })
           : "";
-      const latestAppUpdate = apps
-        .map((app) => app.updatedAt)
-        .filter(Boolean)
-        .sort((a, b) => new Date(b) - new Date(a))[0];
 
-      const lastUpdatedPill = document.querySelector(".pill-last-updated");
-      if (lastUpdatedPill && latestAppUpdate) {
-        lastUpdatedPill.textContent = `Last updated ${formatTimestamp(latestAppUpdate)}`;
+      function getLikeStorageKey(slug) {
+        return `${LIKE_STORAGE_PREFIX}${slug}`;
       }
 
-      grid.innerHTML = apps
-        .map((app) => {
-          const hasUrl = Boolean(app.appUrl);
-          const label = app.label || app.name;
-          const theme = app.theme || "sky";
-          const updatedText = app.updatedAt ? `Last updated ${formatTimestamp(app.updatedAt)}` : "";
-          return `
-            <article class="card">
-              <div class="card-media theme-${theme} app-${app.slug}">
-                <div class="preview-surface">
-                  ${
-                    hasUrl
-                      ? `<iframe class="live-preview" src="${app.appUrl}" title="${app.name} live preview" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`
-                      : ` <div class="card-mark">${label}</div>
-                          <div class="preview-title">${app.name}</div>
-                          <div class="preview-lines">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                          </div>`
-                  }
+      function formatCount(value, emptyLabel) {
+        return Number.isFinite(value) ? value.toLocaleString("en-US") : emptyLabel;
+      }
+
+      function getFeedbackUrl(app) {
+        if (app.feedbackUrl) return app.feedbackUrl;
+        if (!app.githubRepo) return null;
+
+        const title = encodeURIComponent(`Launcher feedback: ${app.name}`);
+        const body = encodeURIComponent(`What did you like or want changed in ${app.name}?\n\n`);
+        return `https://github.com/${app.githubRepo}/issues/new?title=${title}&body=${body}`;
+      }
+
+      function updateSummaryPills(items) {
+        const latestAppUpdate = items
+          .map((app) => app.updatedAt)
+          .filter(Boolean)
+          .sort((a, b) => new Date(b) - new Date(a))[0];
+
+        if (lastUpdatedPill) {
+          lastUpdatedPill.textContent = latestAppUpdate
+            ? `Last updated ${formatTimestamp(latestAppUpdate)}`
+            : "Last updated unavailable";
+        }
+
+        if (liveCountPill) {
+          liveCountPill.textContent = `${items.filter((app) => app.status === "Live").length} live projects`;
+        }
+
+        if (subtlePill) {
+          subtlePill.textContent = isHostedCounterContext
+            ? "Counts track hosted launcher activity"
+            : "Local view does not change counts";
+        }
+      }
+
+      function renderAppGrid(items) {
+        grid.innerHTML = items
+          .map((app) => {
+            const hasUrl = Boolean(app.appUrl);
+            const label = app.label || app.name;
+            const theme = app.theme || "sky";
+            const updatedText = app.updatedAt
+              ? `Last updated ${formatTimestamp(app.updatedAt)}`
+              : app.githubRepo
+                ? "Syncing latest timestamp…"
+                : "Last updated unavailable";
+            const feedbackUrl = getFeedbackUrl(app);
+
+            return `
+              <article class="card">
+                <div class="card-media theme-${theme} app-${app.slug}">
+                  <div class="preview-surface">
+                    ${
+                      hasUrl
+                        ? `<iframe class="live-preview" src="${app.appUrl}" title="${app.name} live preview" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`
+                        : `<div class="card-mark">${label}</div>
+                           <div class="preview-title">${app.name}</div>
+                           <div class="preview-lines">
+                             <span></span>
+                             <span></span>
+                             <span></span>
+                           </div>`
+                    }
+                  </div>
                 </div>
-              </div>
-              <div class="card-body">
-                <div class="card-top">
-                  <h2 class="card-title">${app.name}</h2>
-                  <span class="card-status">${app.status || (hasUrl ? "Ready" : "Pending")}</span>
+                <div class="card-body">
+                  <div class="card-top">
+                    <h2 class="card-title">${app.name}</h2>
+                    <span class="card-status">${app.status || (hasUrl ? "Ready" : "Pending")}</span>
+                  </div>
+                  <p class="card-copy">${app.summary}</p>
+                  <p class="card-meta">${updatedText}</p>
+                  <div class="card-stats">
+                    <span class="stat-pill">↗ ${formatCount(app.launches, "--")} launcher visits</span>
+                    <span class="stat-pill">♥ ${formatCount(app.likes, "--")} likes</span>
+                  </div>
+                  <div class="card-actions">
+                    ${
+                      hasUrl
+                        ? `<a class="btn btn-primary" href="${app.appUrl}" target="_blank" rel="noreferrer" data-track-open="${app.slug}">Open app</a>`
+                        : `<span class="btn btn-disabled">Add deployed URL</span>`
+                    }
+                    <button class="btn btn-secondary" type="button" data-like-app="${app.slug}" ${app.likedByViewer ? "disabled" : ""}>
+                      ${app.likedByViewer ? "Liked" : "Like"}
+                    </button>
+                    ${
+                      feedbackUrl
+                        ? `<a class="btn btn-ghost" href="${feedbackUrl}" target="_blank" rel="noreferrer">Leave feedback</a>`
+                        : ""
+                    }
+                  </div>
                 </div>
-                <p class="card-copy">${app.summary}</p>
-                <p class="card-meta">${updatedText}</p>
-                <div class="card-actions">
-                  ${
-                    hasUrl
-                      ? `<a class="btn btn-primary" href="${app.appUrl}" target="_blank" rel="noreferrer">Open app</a>`
-                      : `<span class="btn btn-disabled">Add deployed URL</span>`
-                  }
-                </div>
-              </div>
-            </article>
-          `;
-        })
-        .join("");
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      async function fetchLatestRepoTimestamp(repo) {
+        if (!repo) return null;
+        try {
+          const response = await fetch(`https://api.github.com/repos/${repo}/commits?per_page=1`, {
+            headers: { Accept: "application/vnd.github+json" }
+          });
+          if (!response.ok) return null;
+          const commits = await response.json();
+          return commits?.[0]?.commit?.committer?.date ?? commits?.[0]?.commit?.author?.date ?? null;
+        } catch {
+          return null;
+        }
+      }
+
+      async function getCounter(key) {
+        try {
+          const response = await fetch(`https://api.countapi.xyz/get/${COUNT_API_NAMESPACE}/${key}`);
+          if (!response.ok) return null;
+          const data = await response.json();
+          return typeof data?.value === "number" ? data.value : 0;
+        } catch {
+          return null;
+        }
+      }
+
+      async function hitCounter(key) {
+        try {
+          const response = await fetch(`https://api.countapi.xyz/hit/${COUNT_API_NAMESPACE}/${key}`, {
+            keepalive: true
+          });
+          if (!response.ok) return null;
+          const data = await response.json();
+          return typeof data?.value === "number" ? data.value : null;
+        } catch {
+          return null;
+        }
+      }
+
+      async function hydrateApps() {
+        const nextApps = await Promise.all(
+          appState.map(async (app) => {
+            const [repoTimestamp, launches, likes] = await Promise.all([
+              fetchLatestRepoTimestamp(app.githubRepo),
+              getCounter(`${app.slug}-launches`),
+              getCounter(`${app.slug}-likes`)
+            ]);
+
+            return {
+              ...app,
+              updatedAt: repoTimestamp || app.updatedAt || null,
+              launches,
+              likes,
+              likedByViewer: window.localStorage.getItem(getLikeStorageKey(app.slug)) === "1"
+            };
+          })
+        );
+
+        appState = nextApps;
+        renderAppGrid(appState);
+        updateSummaryPills(appState);
+      }
+
+      document.addEventListener("click", async (event) => {
+        const openButton = event.target.closest("[data-track-open]");
+        if (openButton) {
+          if (!isHostedCounterContext) {
+            return;
+          }
+          const slug = openButton.getAttribute("data-track-open");
+          hitCounter(`${slug}-launches`).then((value) => {
+            if (typeof value !== "number") return;
+            appState = appState.map((app) => (app.slug === slug ? { ...app, launches: value } : app));
+            renderAppGrid(appState);
+            updateSummaryPills(appState);
+          });
+          return;
+        }
+
+        const likeButton = event.target.closest("[data-like-app]");
+        if (!likeButton) return;
+        if (!isHostedCounterContext) return;
+
+        const slug = likeButton.getAttribute("data-like-app");
+        if (!slug || window.localStorage.getItem(getLikeStorageKey(slug)) === "1") {
+          return;
+        }
+
+        const nextValue = await hitCounter(`${slug}-likes`);
+        window.localStorage.setItem(getLikeStorageKey(slug), "1");
+        appState = appState.map((app) =>
+          app.slug === slug
+            ? {
+                ...app,
+                likes: typeof nextValue === "number" ? nextValue : app.likes,
+                likedByViewer: true
+              }
+            : app
+        );
+        renderAppGrid(appState);
+        updateSummaryPills(appState);
+      });
+
+      renderAppGrid(appState);
+      updateSummaryPills(appState);
+      hydrateApps();
     </script>
   </body>
 </html>
