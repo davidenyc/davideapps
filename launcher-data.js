@@ -6,6 +6,9 @@ window.LAUNCHER_APPS = [
     appUrl: "https://lumis-delta.vercel.app/",
     status: "Live",
     updatedAt: "2026-04-24T00:42:34-04:00",
+    githubRepo: "davidenyc/Lumis",
+    repoCommit: "306efb1",
+    repoSummary: "Prepare repo for Vercel deployment",
     label: "LUMIS",
     theme: "sky"
   },
@@ -15,7 +18,10 @@ window.LAUNCHER_APPS = [
     summary: "NYC venue discovery, country flows, and match-day watch planning.",
     appUrl: "https://worldcupmvp.vercel.app",
     status: "Live",
-    updatedAt: "2026-04-23T12:59:39-04:00",
+    updatedAt: "2026-04-25T02:40:06-04:00",
+    githubRepo: "davidenyc/worldcupmvp",
+    repoCommit: "0c1b833",
+    repoSummary: "Tighten venue classification and mobile map controls",
     label: "WORLD CUP",
     theme: "gold"
   },
@@ -25,7 +31,10 @@ window.LAUNCHER_APPS = [
     summary: "Vendor discovery, produce listings, and local market visibility.",
     appUrl: "https://marketconnectapp.vercel.app",
     status: "Live",
-    updatedAt: "2026-04-23T13:22:32-04:00",
+    updatedAt: "2026-04-23T21:52:37-04:00",
+    githubRepo: "davidenyc/marketconnectapp",
+    repoCommit: "96dc828",
+    repoSummary: "Vendor detail hero, search filters, map region jumps, landing polish",
     label: "MARKET",
     theme: "sky"
   },
@@ -36,6 +45,9 @@ window.LAUNCHER_APPS = [
     appUrl: "https://theplayersapp.vercel.app/login",
     status: "Live",
     updatedAt: "2026-04-23T13:27:17-04:00",
+    githubRepo: "davidenyc/theplayersapp",
+    repoCommit: "b8a2f1e",
+    repoSummary: "Fix Vercel production build",
     label: "PLAYERS",
     theme: "mint"
   },
@@ -46,6 +58,9 @@ window.LAUNCHER_APPS = [
     appUrl: "https://artistdashboard-xi.vercel.app/dashboard",
     status: "Live",
     updatedAt: "2026-04-23T13:38:17-04:00",
+    githubRepo: "davidenyc/artistdashboard",
+    repoCommit: "e5d918b",
+    repoSummary: "Fix production build fallback",
     label: "ARTIST",
     theme: "lavender"
   }

@@ -13,8 +13,8 @@
         <h1>Apps Davide is currently developing</h1>
         <div class="toolbar">
           <span class="pill pill-live-count">5 live projects</span>
-          <span class="pill pill-last-updated">Checking latest updates…</span>
-          <span class="pill pill-subtle">Timestamps auto-sync from GitHub</span>
+          <span class="pill pill-last-updated">Latest repo update</span>
+          <span class="pill pill-subtle">Showing latest repo change for each app</span>
         </div>
       </section>
 
@@ -58,8 +58,8 @@
 
         if (lastUpdatedPill) {
           lastUpdatedPill.textContent = latestAppUpdate
-            ? `Last updated ${formatTimestamp(latestAppUpdate)}`
-            : "Last updated unavailable";
+            ? `Latest repo update ${formatTimestamp(latestAppUpdate)}`
+            : "Latest repo update unavailable";
         }
 
         if (liveCountPill) {
@@ -67,7 +67,7 @@
         }
 
         if (subtlePill) {
-          subtlePill.textContent = "Timestamps auto-sync from GitHub";
+          subtlePill.textContent = "Showing latest repo change for each app";
         }
       }
 
@@ -78,10 +78,13 @@
             const label = app.label || app.name;
             const theme = app.theme || "sky";
             const updatedText = app.updatedAt
-              ? `Last updated ${formatTimestamp(app.updatedAt)}`
+              ? `Repo updated ${formatTimestamp(app.updatedAt)}`
               : app.githubRepo
-                ? "Syncing latest timestamp…"
-                : "Last updated unavailable";
+                ? "Repo update unavailable"
+                : "Repo update unavailable";
+            const commitText = app.repoCommit
+              ? `Commit ${app.repoCommit}${app.repoSummary ? ` · ${app.repoSummary}` : ""}`
+              : "";
             const feedbackUrl = getFeedbackUrl(app);
 
             return `
@@ -108,6 +111,7 @@
                 </div>
                 <p class="card-copy">${app.summary}</p>
                 <p class="card-meta">${updatedText}</p>
+                ${commitText ? `<p class="card-meta card-meta-secondary">${commitText}</p>` : ""}
                 <div class="card-actions">
                   ${
                     hasUrl
@@ -127,40 +131,8 @@
           .join("");
       }
 
-      async function fetchLatestRepoTimestamp(repo) {
-        if (!repo) return null;
-        try {
-          const response = await fetch(`https://api.github.com/repos/${repo}/commits?per_page=1`, {
-            headers: { Accept: "application/vnd.github+json" }
-          });
-          if (!response.ok) return null;
-          const commits = await response.json();
-          return commits?.[0]?.commit?.committer?.date ?? commits?.[0]?.commit?.author?.date ?? null;
-        } catch {
-          return null;
-        }
-      }
-
-      async function hydrateApps() {
-        const nextApps = await Promise.all(
-          appState.map(async (app) => {
-            const repoTimestamp = await fetchLatestRepoTimestamp(app.githubRepo);
-
-            return {
-              ...app,
-              updatedAt: repoTimestamp || app.updatedAt || null
-            };
-          })
-        );
-
-        appState = nextApps;
-        renderAppGrid(appState);
-        updateSummaryPills(appState);
-      }
-
       renderAppGrid(appState);
       updateSummaryPills(appState);
-      hydrateApps();
     </script>
   </body>
 </html>
